@@ -1,14 +1,3 @@
 node_modules
-/.idea
-newrelic_agent.log
-.ruby-version
-/.DS_Store
-.DS_Store
-package-lock.json
-examples/examples-gallery/build
-yarn-error.log
-.gh-token
-.serverless/
-.rpt2_cache/
-**/.nyc_output
-**/coverage
+*.sqlite
+slack.zip
