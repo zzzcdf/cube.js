@@ -214,6 +214,10 @@ class JDBCDriver extends BaseDriver {
     await this.pool.clear();
   }
 
+  static driverEnvVariables() {
+    return ['CUBEJS_JDBC_DRIVER'];
+  }
+
   static getSupportedDrivers() {
     return Object.keys(DbTypes);
   }
