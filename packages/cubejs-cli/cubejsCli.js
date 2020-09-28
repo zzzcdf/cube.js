@@ -88,34 +88,47 @@ const createApp = async (projectName, options) => {
 
   if (!options.dbType) {
     const Drivers = await requireFromPackage('@cubejs-backend/server-core/core/DriverDependencies.js');
-    const prompt = await inquirer.prompt([{
+    const { dbType } = await inquirer.prompt([{
       type: 'list',
       name: 'dbType',
-      message: 'Select database',
+      message: 'Select driver',
       choices: Object.keys(Drivers)
     }]);
 
-    options.dbType = prompt.dbType;
+    options.dbType = dbType;
   }
 
   logStage('Installing DB driver dependencies');
   const CubejsServer = await requireFromPackage('@cubejs-backend/server');
+
   let driverDependencies = CubejsServer.driverDependencies(options.dbType);
   if (!driverDependencies) {
     await displayError(`Unsupported db type: ${chalk.green(options.dbType)}`, createAppOptions);
   }
+
   driverDependencies = Array.isArray(driverDependencies) ? driverDependencies : [driverDependencies];
   if (driverDependencies[0] === '@cubejs-backend/jdbc-driver') {
     driverDependencies.push('node-java-maven');
   }
+
   await npmInstall(driverDependencies);
 
   if (driverDependencies[0] === '@cubejs-backend/jdbc-driver') {
     logStage('Installing JDBC dependencies');
-    const JDBCDriver = require(path.join(process.cwd(), 'node_modules', '@cubejs-backend', 'jdbc-driver', 'driver', 'JDBCDriver'));
-    const dbTypeDescription = JDBCDriver.dbTypeDescription(options.dbType);
+    const JDBCPackage = await requireFromPackage('@cubejs-backend/jdbc-driver');
+
+    const { jdbcDriver } = await inquirer.prompt([{
+      type: 'list',
+      name: 'jdbcDriver',
+      message: 'Select JDBC driver',
+      choices: JDBCPackage.getSupportedDrivers()
+    }]);
+
+    const dbTypeDescription = JDBCPackage.dbTypeDescription(
+      jdbcDriver
+    );
     if (!dbTypeDescription) {
-      await displayError(`Unsupported db type: ${chalk.green(options.dbType)}`, createAppOptions);
+      await displayError(`Unsupported db type: ${chalk.green(jdbcDriver)}`, createAppOptions);
     }
 
     const newPackageJson = await fs.readJson('package.json');
