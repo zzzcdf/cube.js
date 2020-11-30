@@ -322,6 +322,13 @@ jobs:
           yarn lerna run --concurrency 1 integration:mysql
         env:
           TEST_MYSQL_VERSION: 5.7
+      - name: Run MySQL Integration with 8
+        timeout-minutes: 10
+        run: |
+          docker pull mysql:${TEST_MYSQL_VERSION}
+          yarn lerna run --concurrency 1 integration:mysql
+        env:
+          TEST_MYSQL_VERSION: 8.0
       - name: Run Clickhouse Integration with 20.6
         timeout-minutes: 10
         run: |
