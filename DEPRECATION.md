@@ -36,7 +36,7 @@ features:
 | Status     | Feature                                                               | Deprecated | Remove    |
 | ---------- | --------------------------------------------------------------------- | ---------- | --------- |
 | Deprecated | [Embedding Cube.js within Express](#embedding-cubejs-within-express)  | v0.24.0    | June 2021 |
-| Deprecated | [`CUBEJS_ENABLE_TLS`](#cubejs_enable_tls)                             | v0.23.11   | June 2021 |
+| Deprecated | [`CUBEJS_ENABLE_TLS`](#cubejs_enable_tls)                             | v0.23.11   |   v0.25.0 |
 | Deprecated | [`hearBeatInterval`](#hearbeatinterval)                               | v0.23.8    | June 2021 |
 | Deprecated | [Node.js 8](#nodejs-8)                                                | v0.22.4    |   v0.26.0 |
 

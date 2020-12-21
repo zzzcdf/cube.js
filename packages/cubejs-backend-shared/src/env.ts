@@ -8,10 +8,6 @@ const variables = {
     .default(4000)
     .required()
     .asPortNumber(),
-  tlsPort: () => get('TLS_PORT')
-    .default(4433)
-    .required()
-    .asPortNumber(),
   tls: () => get('CUBEJS_ENABLE_TLS')
     .default('false')
     .asBoolStrict(),
