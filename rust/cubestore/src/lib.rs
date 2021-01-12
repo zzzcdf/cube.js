@@ -23,10 +23,10 @@ use std::backtrace::Backtrace;
 use std::num::ParseIntError;
 use std::sync::PoisonError;
 use tokio::sync::mpsc::error::SendError;
+use cubehll::HllError;
 
 pub mod cluster;
 pub mod config;
-pub mod hll;
 pub mod http;
 pub mod import;
 pub mod metastore;
@@ -307,3 +307,8 @@ impl From<hex::FromHexError> for CubeError {
         CubeError::from_error(v)
     }
 }
+
+impl From<HllError> for CubeError {
+    fn from(v: HllError) -> Self { return CubeError::from_error(v) }
+}
+
