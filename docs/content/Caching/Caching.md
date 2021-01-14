@@ -16,7 +16,7 @@ To reset the **in-memory** cache in development mode, just restart the server.
 The second level of caching is called **pre-aggregations**, and requires explicit configuration to activate.
 
 We do not recommend changing the default **in-memory** caching configuration
-unless it is necessary. To speed up queries performance, consider using
+unless it is necessary. To speed up query performance, consider using
 **pre-aggregations**.
 
 ## Pre-Aggregations
