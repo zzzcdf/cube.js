@@ -140,7 +140,7 @@ the query hasn't changed, the cached value will be returned. Otherwise, a
 
 ### Refresh Keys
 
-Cube.js takes great care to prevent unnecessary queries from hitting your database. The first stage caching system caches query results in Redis (or in the in-memory store in development), but Cube.js needs a way to know if the data powering that query result has changed. If the underlying data isn't any different, the cached result is valid and can be returned skipping that expensive query, but if there is a difference, the query needs to be re-run and its' result cached.
+Cube.js takes great care to prevent unnecessary queries from hitting your database. The first stage caching system caches query results in Redis (or in the in-memory store in development), but Cube.js needs a way to know if the data powering that query result has changed. If the underlying data isn't any different, the cached result is valid and can be returned skipping an expensive query, but if there is a difference, the query needs to be re-run and its result cached.
 
 To aid with this, Cube.js defines a `refreshKey` for each cube. [Refresh keys](cube#parameters-refresh-key) are evaluated by Cube.js to assess if the data needs to be refreshed.
 
