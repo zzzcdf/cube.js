@@ -184,7 +184,7 @@ The default values for `refreshKey` are
 ### How to disable the cache?
 
 There's no straightforward way to disable caching in Cube.js.
-The reason for it is Cube.js is not just stores cached values but uses the cache as a point of synchronization and coordination between nodes in a cluster.
+The reason is that Cube.js not just stores cached values but uses the cache as a point of synchronization and coordination between nodes in a cluster.
 For the sake of design simplicity, Cube.js doesn't distinguish client invocations, and all calls to the data load API are idempotent.
 This provides excellent reliability and scalability but has some drawbacks.
 One of those load data calls can't be traced to specific clients, and as a consequence, there's no guaranteed way for a client to initiate a new data loading query or know if the current invocation wasn't initiated earlier by another client.
