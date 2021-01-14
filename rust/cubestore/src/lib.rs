@@ -26,6 +26,7 @@ use tokio::sync::mpsc::error::SendError;
 
 pub mod cluster;
 pub mod config;
+pub mod hll;
 pub mod http;
 pub mod import;
 pub mod metastore;
