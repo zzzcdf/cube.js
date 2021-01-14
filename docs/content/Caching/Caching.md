@@ -178,7 +178,7 @@ The default values for `refreshKey` are
  * `every: '2 minute'` for BigQuery, Athena, Snowflake, and Presto.
  * `every: '10 second'` for all other databases.
 
-+You can use a custom SQL query for checking if a refresh is required by changing the [`refreshKey`](/cube#parameters-refresh-key) property in a cube's Data Schema. Often, a `MAX(updated_at_timestamp)` for OLTP data is a viable option, or examining a metadata table for whatever system is managing the data to see when it last ran.
++You can use a custom SQL query to check if a refresh is required by changing the [`refreshKey`](/cube#parameters-refresh-key) property in a cube's Data Schema. Often, a `MAX(updated_at_timestamp)` for OLTP data is a viable option, or examining a metadata table for whatever system is managing the data to see when it last ran.
 
 
 ### How to disable the cache?
