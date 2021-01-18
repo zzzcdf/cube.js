@@ -181,7 +181,7 @@ The default values for `refreshKey` are
 +You can use a custom SQL query to check if a refresh is required by changing the [`refreshKey`](/cube#parameters-refresh-key) property in a cube's Data Schema. Often, a `MAX(updated_at_timestamp)` for OLTP data is a viable option, or examining a metadata table for whatever system is managing the data to see when it last ran.
 
 
-### How to disable the cache?
+### Disabling the cache
 
 There's no straightforward way to disable caching in Cube.js.
 The reason is that Cube.js not just stores cached values but uses the cache as a point of synchronization and coordination between nodes in a cluster.
