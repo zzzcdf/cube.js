@@ -61,7 +61,7 @@ export interface NormalizedQuery extends Query {
 }
 
 export interface RequestContext {
-  authInfo: any;
+  securityContext: any;
   requestId: string;
 }
 

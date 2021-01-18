@@ -150,18 +150,21 @@ const transformData = (aliasToMemberNameMap, annotation, data, query, queryType)
   return row;
 }));
 
-const coerceForSqlQuery = (query, context) => ({
+const coerceForSqlQuery = (query, context: RequestContext) => ({
   ...query,
   timeDimensions: query.timeDimensions || [],
   contextSymbols: {
-    userContext: context.authInfo && context.authInfo.u || {}
+    securityContext: context.securityContext && context.securityContext.u || {}
   },
   requestId: context.requestId
 });
 
 interface Request extends ExpressRequest {
   context?: RequestContext,
+  // It's deprecated
   authInfo?: any,
+  // New one, replace authInfo
+  securityContext?: any,
 }
 
 export interface ApiGatewayOptions {
@@ -220,7 +223,7 @@ export class ApiGateway {
     this.subscriptionStore = options.subscriptionStore || new LocalSubscriptionStore();
     this.enforceSecurityChecks = options.enforceSecurityChecks || (process.env.NODE_ENV === 'production');
     this.extendContext = options.extendContext;
-    this.checkAuthFn = options.checkAuth || this.defaultCheckAuth.bind(this);
+    this.checkAuthFn = options.checkAuth ? this.wrapCheckAuth(options.checkAuth) : this.defaultCheckAuth.bind(this);
     this.checkAuthMiddleware = options.checkAuthMiddleware || this.checkAuth.bind(this);
     this.requestLoggerMiddleware = options.requestLoggerMiddleware || this.requestLogger.bind(this);
   }
@@ -497,7 +500,7 @@ export class ApiGateway {
         };
 
         slowQuery = slowQuery || Boolean(response.slowQuery);
-        
+
         return {
           query: normalizedQuery,
           data: transformData(
@@ -697,11 +700,22 @@ export class ApiGateway {
     }
   }
 
+  protected wrapCheckAuth(fn: (req: Request, auth?: string) => void) {
+    return (req: Request, auth?: string) => {
+      fn(req, auth);
+
+      // We renamed authInfo to securityContext, but users can continue to use it
+      if (req.authInfo) {
+        req.securityContext = req.authInfo;
+      }
+    };
+  }
+
   protected async defaultCheckAuth(req: Request, auth?: string) {
     if (auth) {
       const secret = this.apiSecret;
       try {
-        req.authInfo = jwt.verify(auth, secret);
+        req.securityContext = jwt.verify(auth, secret);
       } catch (e) {
         if (this.enforceSecurityChecks) {
           throw new UserError('Invalid token');
@@ -754,7 +768,7 @@ export class ApiGateway {
   }
 
   protected requestContextMiddleware: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-    req.context = await this.contextByReq(req, req.authInfo, this.requestIdByReq(req));
+    req.context = await this.contextByReq(req, req.securityContext, this.requestIdByReq(req));
     if (next) {
       next();
     }
@@ -812,7 +826,7 @@ export class ApiGateway {
     this.logger(type, {
       ...restParams,
       ...(!context ? undefined : {
-        authInfo: context.authInfo,
+        securityContext: context.securityContext,
         requestId: context.requestId
       })
     });
