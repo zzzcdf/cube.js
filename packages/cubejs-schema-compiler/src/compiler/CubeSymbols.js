@@ -136,16 +136,22 @@ export class CubeSymbols {
   resolveSymbol(cubeName, name) {
     const { sqlResolveFn, contextSymbols } = this.resolveSymbolsCallContext || {};
     if (CONTEXT_SYMBOLS[name]) {
+      if (name === 'USER_CONTEXT') {
+
+      }
+
       // always resolves if contextSymbols aren't passed for transpile step
       const symbol = contextSymbols && contextSymbols[CONTEXT_SYMBOLS[name]] || {};
       // eslint-disable-next-line no-underscore-dangle
       symbol._objectWithResolvedProperties = true;
       return symbol;
     }
+
     let cube = this.isCurrentCube(name) && this.symbols[cubeName] || this.symbols[name];
     if (sqlResolveFn && cube) {
       cube = this.cubeReferenceProxy(this.isCurrentCube(name) ? cubeName : name);
     }
+
     return cube || (this.symbols[cubeName] && this.symbols[cubeName][name]);
   }
 
