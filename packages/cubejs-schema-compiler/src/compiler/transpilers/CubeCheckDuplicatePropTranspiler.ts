@@ -1,11 +1,13 @@
+import type { TranspilerInterface } from './transpiler.interface';
+
 const TYPE = {
   OBJECT_EXPRESSION: 'ObjectExpression',
   STRING_LITERAL: 'StringLiteral',
   IDENTIFIER: 'Identifier'
 };
 
-export class CubeCheckDuplicatePropTranspiler {
-  traverseObject() {
+export class CubeCheckDuplicatePropTranspiler implements TranspilerInterface {
+  public traverseObject() {
     return {
       CallExpression: path => {
         if (path.node.callee.name === 'cube') {
@@ -19,7 +21,7 @@ export class CubeCheckDuplicatePropTranspiler {
     };
   }
 
-  compileExpression(expr) {
+  protected compileExpression(expr) {
     if (expr.type === TYPE.IDENTIFIER) {
       return expr.name;
     }
@@ -31,7 +33,7 @@ export class CubeCheckDuplicatePropTranspiler {
     return null;
   }
 
-  checkExpression(astObjectExpression) {
+  protected checkExpression(astObjectExpression) {
     const unique = new Set();
 
     astObjectExpression.properties.forEach(prop => {

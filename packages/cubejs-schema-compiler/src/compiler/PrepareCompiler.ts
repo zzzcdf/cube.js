@@ -1,8 +1,5 @@
 import { CubeValidator } from './CubeValidator';
 import { DataSchemaCompiler } from './DataSchemaCompiler';
-import { CubeCheckDuplicatePropTranspiler } from './CubeCheckDuplicatePropTranspiler';
-import { CubePropContextTranspiler } from './CubePropContextTranspiler';
-import { ImportExportTranspiler } from './ImportExportTranspiler';
 import { CubeSymbols } from './CubeSymbols';
 import { CubeDictionary } from './CubeDictionary';
 import { CubeEvaluator } from './CubeEvaluator';
@@ -14,8 +11,14 @@ import { RefreshKeys } from '../extensions/RefreshKeys';
 import { Reflection } from '../extensions/Reflection';
 import { CubeToMetaTransformer } from './CubeToMetaTransformer';
 import { CompilerCache } from './CompilerCache';
+import {
+  CubeCheckDuplicatePropTranspiler,
+  CubePropContextTranspiler,
+  ImportExportTranspiler,
+  TranspilerInterface,
+} from './transpilers';
 
-export const prepareCompiler = (repo, options) => {
+export const prepareCompiler = (repo: any, options: any) => {
   const cubeDictionary = new CubeDictionary();
   const cubeSymbols = new CubeSymbols();
   const cubeValidator = new CubeValidator(cubeSymbols);
@@ -27,7 +30,7 @@ export const prepareCompiler = (repo, options) => {
   const { maxQueryCacheSize, maxQueryCacheAge } = options;
   const compilerCache = new CompilerCache({ maxQueryCacheSize, maxQueryCacheAge });
 
-  const transpilers = [
+  const transpilers: TranspilerInterface[] = [
     new ImportExportTranspiler(),
     new CubePropContextTranspiler(cubeSymbols, cubeDictionary),
   ];
@@ -52,6 +55,7 @@ export const prepareCompiler = (repo, options) => {
     },
     compileContext: options.compileContext
   }, options));
+
   return {
     compiler,
     metaTransformer,
