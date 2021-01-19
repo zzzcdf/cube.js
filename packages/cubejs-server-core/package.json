@@ -34,7 +34,7 @@
     "@cubejs-backend/query-orchestrator": "^0.25.21",
     "@cubejs-backend/schema-compiler": "^0.25.21",
     "@cubejs-backend/shared": "^0.25.18",
-    "@hapi/joi": "^15.1.1",
+    "@hapi/joi": "^17.1.1",
     "codesandbox-import-utils": "^2.1.12",
     "cross-spawn": "^7.0.1",
     "decompress": "^4.2.1",
