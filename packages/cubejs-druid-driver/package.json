@@ -30,7 +30,7 @@
   "dependencies": {
     "@cubejs-backend/query-orchestrator": "^0.25.21",
     "@cubejs-backend/schema-compiler": "^0.25.21",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "moment-timezone": "^0.5.31"
   },
   "devDependencies": {
