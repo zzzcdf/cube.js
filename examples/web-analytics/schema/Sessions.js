@@ -48,6 +48,12 @@ cube(`Sessions`, {
       title: "Users"
     },
 
+    usersCountApprox: {
+      type: `countDistinctApprox`,
+      sql: `domain_userid`,
+      title: "Users Approx"
+    },
+
     newUsersCount: {
       type: `countDistinct`,
       sql: `domain_userid`,
@@ -241,7 +247,14 @@ cube(`Sessions`, {
       },
       external: true,
       scheduledRefresh: true
-    }
+    },
+    approximator: {
+      type: `rollup`,
+      measureReferences: [usersCountApprox],
+      timeDimensionReference: sessionStart,
+      granularity: `day`,
+      external: true,
+    },
   }
 });
 
@@ -278,6 +291,6 @@ cube(`SessionUsers`, {
           columns: [`session_id`]
         }
       }
-    }
+    },
   }
 });
