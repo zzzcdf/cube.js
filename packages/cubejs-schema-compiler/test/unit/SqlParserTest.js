@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 /* globals it,describe */
-import SqlParser from '../../src/parser/SqlParser';
+import { SqlParser } from '../../src/parser/SqlParser';
 
 require('should');
 
